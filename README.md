@@ -67,6 +67,21 @@ Then run your program:
     $ ruby commands_with_args.rb show Pat
     Name: Pat
 
+## Help
+
+Add comments above commands to generate help:
+
+    ##
+    # Shows the name.
+    command :show do |name|
+      puts "Name: " + name
+    end
+
+Running your program:
+
+    $ ruby commands.rb help show
+
+
 ### TODO
 
 * Actually use `optparse`. It's good for what it does.

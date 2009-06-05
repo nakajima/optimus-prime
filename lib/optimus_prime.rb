@@ -97,7 +97,12 @@ module OptimusPrime
       ##
       # Show this help message
       command :help do |cmd|
-        puts help(cmd)
+        if cmd
+          puts help(cmd)
+        else
+          puts "Commands:"
+          puts self.class.commands.map { |name| "- #{name}" }
+        end
       end
 
       def initialize
@@ -125,6 +130,10 @@ module OptimusPrime
 
     def command(name, &block)
       __optor__.command(name, &block)
+    end
+    
+    def commands
+      __optor__.commands.keys
     end
 
     def option(*names)
