@@ -77,14 +77,16 @@ describe OptimusPrime do
       new_parser = Class.new {
         include OptimusPrime
 
-        ##
-        # Shows something
-        # sorta
-        command :show do |a, b|
+        command :show do |something|
+          ##
+          # Shows something
+          # sorta
+          ##
+          puts something
         end
 
-        # Something else
         command :fizz do
+          # Something else
         end
       }.new
 

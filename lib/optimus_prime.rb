@@ -11,14 +11,14 @@ module OptimusPrime
       @help ||= begin
         lines = file.split(/\n/)
         result = []
-        i = 2
-        while lines[line-i] =~ /^\s*##?/
-          string = lines[line-i].gsub(/^\s*#*\s?/, '')
-          result << string
+        i = 0
+        while (string = lines[line+i]) =~ /\s*##?/
+          result << string.gsub(/^\s*#*\s?/, '')
           i += 1
         end
-        result.pop if result.last.empty?
-        result.reverse.join("\n")
+        result.shift if result.first.empty?
+        result.pop   if result.last.empty?
+        result.join("\n")
       end
     end
 
@@ -94,9 +94,9 @@ module OptimusPrime
     klass.class_eval do
       extend ClassMethods
 
-      ##
-      # Show this help message
       command :help do |cmd|
+        ##
+        # Show this help message
         if cmd and self.class.commands.include?(cmd)
           puts help(cmd)
         else

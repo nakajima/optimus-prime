@@ -5,13 +5,13 @@ class Commands
 
   option :name, :age
 
-  ##
-  # Shows name and age.
-  #
-  # Usage:
-  #
-  #   $ ruby commands.rb show --name Pat
   command :show do
+    ##
+    # Shows name and age.
+    #
+    # Usage:
+    #
+    #   $ ruby commands.rb show --name Pat
     puts "Name: " + (@name || '(n/a)')
     puts "Age:  " + (@age  || '(n/a)')
   end
