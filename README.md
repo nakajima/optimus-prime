@@ -80,7 +80,7 @@ Add comments above commands to generate help:
 Running your program:
 
     $ ruby commands.rb help show
-
+    Shows the name.
 
 ### TODO
 
