@@ -97,7 +97,7 @@ module OptimusPrime
       ##
       # Show this help message
       command :help do |cmd|
-        if cmd
+        if cmd and self.class.commands.include?(cmd)
           puts help(cmd)
         else
           puts "Commands:"
