@@ -2,9 +2,11 @@ require 'spec/spec_helper'
 
 describe OptimusPrime do
   def with_args(*args)
+    old = ARGV.dup
+    ARGV.clear
     args.each { |a| ARGV << a }
     yield
-    args.size.times { ARGV.pop }
+    ARGV.replace(old)
   end
 
   it "should set instance variables" do
@@ -67,6 +69,27 @@ describe OptimusPrime do
       }.new
 
       new_parser.shown.should == ['fizz', 'buzz']
+    end
+  end
+
+  it "fakes rdoc" do
+    with_args [] do
+      new_parser = Class.new {
+        include OptimusPrime
+
+        ##
+        # Shows something
+        # sorta
+        command :show do |a, b|
+        end
+
+        # Something else
+        command :fizz do
+        end
+      }.new
+
+      new_parser.help('show').should == "Shows something\nsorta"
+      new_parser.help('fizz').should == 'Something else'
     end
   end
 end

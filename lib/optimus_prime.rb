@@ -2,6 +2,43 @@ require 'rubygems'
 require 'nakajima'
 
 module OptimusPrime
+  class Command
+    def initialize(caller, handler)
+      @caller, @handler = caller[1], handler
+    end
+
+    def help
+      @help ||= begin
+        lines = file.split(/\n/)
+        result = []
+        i = 2
+        while lines[line-i] =~ /^\s*##?/
+          string = lines[line-i].gsub(/^\s*#*\s?/, '')
+          result << string
+          i += 1
+        end
+        result.pop if result.last.empty?
+        result.reverse.join("\n")
+      end
+    end
+
+    def file
+      @file ||= File.read(@caller.split(':').first)
+    end
+
+    def line
+      @caller.split(':').last.to_i
+    end
+
+    def arity
+      @handler.arity
+    end
+
+    def to_proc
+      @handler
+    end
+  end
+
   class Optor
     def initialize(klass, args)
       @klass, @args = klass, args
@@ -16,7 +53,11 @@ module OptimusPrime
     end
 
     def command(name, &block)
-      commands[name.to_s] = block
+      commands[name.to_s] = Command.new(caller, block)
+    end
+
+    def help(name)
+      @commands[name].help
     end
 
     def option(name)
@@ -42,8 +83,8 @@ module OptimusPrime
     private
 
     def run_command(instance, name, args)
+      return unless command = commands[name]
       block_args = []
-      command = commands[name]
       command.arity.times { block_args << args.shift }
       instance.instance_exec(*block_args, &command)
     end
@@ -53,12 +94,18 @@ module OptimusPrime
     klass.class_eval do
       extend ClassMethods
 
+      ##
+      # Show this help message
+      command :help do |cmd|
+        puts help(cmd)
+      end
+
       def initialize
         self.class.init(self)
       end
 
-      def command
-
+      def help(name)
+        self.class.help(name)
       end
     end
   end
@@ -70,6 +117,10 @@ module OptimusPrime
 
     def init(instance)
       __optor__.init(instance)
+    end
+
+    def help(name)
+      __optor__.help(name)
     end
 
     def command(name, &block)
