@@ -32,6 +32,8 @@ Then run your program:
     class FlagsClass
       include OptimusPrime
 
+      attr_reader :verbose
+
       flag :verbose
     end
 
