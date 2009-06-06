@@ -54,6 +54,10 @@ module OptimusPrime
       __optor__.commands.keys
     end
 
+    def flag(*flags)
+      flags.each { |name| __optor__.flag(name) }
+    end
+
     def option(*names)
       names.each { |name| __optor__.option(name) }
     end

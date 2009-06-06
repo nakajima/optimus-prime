@@ -4,6 +4,8 @@ An option parsing yak shave. I blame python.
 
 ## Usage
 
+### Options
+
 Create a parser class:
 
     class OptionClass
@@ -24,6 +26,23 @@ Then run your program:
     $ ruby option_class.rb --name Pat --age 22
     Name: Pat
     Age:  22
+
+#### You can also have options that don't need a value (flags):
+
+    class FlagsClass
+      include OptimusPrime
+
+      flag :verbose
+    end
+
+    options = FlagsClass.new
+
+    puts "Verbose: " + options.verbose ? 'Yes' : 'No'
+
+Then run your program:
+
+    $ ruby flags_class.rb --verbose
+    Verbose: Yes
 
 ### Commands
 

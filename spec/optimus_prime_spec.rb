@@ -24,6 +24,36 @@ describe OptimusPrime do
     end
   end
 
+  it "should allow shorthand" do
+    with_args '-n', 'Pat', '-a', '21' do
+      new_parser = Class.new {
+        include OptimusPrime
+
+        attr_reader :name, :age
+
+        option :name, :age
+      }.new
+
+      new_parser.name.should == 'Pat'
+      new_parser.age.should == '21'
+    end
+  end
+
+  it "should allow flags" do
+    with_args '--verbose' do
+      new_parser = Class.new {
+        include OptimusPrime
+
+        attr_reader :verbose
+        alias_method :verbose?, :verbose
+
+        flag :verbose
+      }.new
+
+      new_parser.should be_verbose
+    end
+  end
+
   context "using a block" do
     it "finds commands" do
       with_args 'show' do
