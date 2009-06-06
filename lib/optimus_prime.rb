@@ -46,7 +46,7 @@ module OptimusPrime
     end
 
     def command(name, &block)
-      __optor__.command(name, &block)
+      __optor__.command(name, block)
     end
 
     def commands

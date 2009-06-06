@@ -24,56 +24,96 @@ describe OptimusPrime do
     end
   end
 
-  it "finds commands" do
-    with_args 'show' do
-      new_parser = Class.new {
-        include OptimusPrime
+  context "using a block" do
+    it "finds commands" do
+      with_args 'show' do
+        new_parser = Class.new {
+          include OptimusPrime
 
-        attr_reader :shown
+          attr_reader :shown
 
-        command :show do
-          @shown = true
-        end
-      }.new
+          command :show do
+            @shown = true
+          end
+        }.new
 
-      new_parser.shown.should be_true
+        new_parser.shown.should be_true
+      end
+    end
+
+    it "allows 1 command argument" do
+      with_args 'show', 'awesome' do
+        new_parser = Class.new {
+          include OptimusPrime
+
+          attr_reader :shown
+
+          command :show do |val|
+            @shown = val
+          end
+        }.new
+
+        new_parser.shown.should == 'awesome'
+      end
+    end
+
+    it "allows multiple block arguments" do
+      with_args 'show', 'fizz', 'buzz' do
+        new_parser = Class.new {
+          include OptimusPrime
+
+          attr_reader :shown
+
+          command :show do |a, b|
+            @shown = [a, b]
+          end
+        }.new
+
+        new_parser.shown.should == ['fizz', 'buzz']
+      end
     end
   end
 
-  it "allows 1 command argument" do
-    with_args 'show', 'awesome' do
-      new_parser = Class.new {
-        include OptimusPrime
+  context "using a method" do
+    it "finds commands" do
+      with_args 'show' do
+        new_parser = Class.new {
+          include OptimusPrime
 
-        attr_reader :shown
+          attr_reader :shown
 
-        command :show do |val|
-          @shown = val
-        end
-      }.new
+          command :show
 
-      new_parser.shown.should == 'awesome'
+          def show
+            @shown = true
+          end
+        }.new
+
+        new_parser.shown.should be_true
+      end
     end
-  end
 
-  it "allows multiple block arguments" do
-    with_args 'show', 'fizz', 'buzz' do
-      new_parser = Class.new {
-        include OptimusPrime
+    it "allows 1 command argument" do
+      with_args 'show', 'awesome' do
+        new_parser = Class.new {
+          include OptimusPrime
 
-        attr_reader :shown
+          attr_reader :shown
 
-        command :show do |a, b|
-          @shown = [a, b]
-        end
-      }.new
+          command :show
 
-      new_parser.shown.should == ['fizz', 'buzz']
+          def show(val)
+            @shown = val
+          end
+        }.new
+
+        new_parser.shown.should == 'awesome'
+      end
     end
   end
 
   it "fakes rdoc" do
-    with_args [] do
+    with_args do
       new_parser = Class.new {
         include OptimusPrime
 

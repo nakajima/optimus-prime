@@ -12,8 +12,8 @@ module OptimusPrime
       @commands ||= {}
     end
 
-    def command(name, &block)
-      commands[name.to_s] = Command.new(caller, block)
+    def command(name, handler)
+      commands[name.to_s] = handler && Command.new(handler, caller)
     end
 
     def help(name)
@@ -42,8 +42,12 @@ module OptimusPrime
 
     private
 
+    def get_command(instance, name)
+      Command.new(@klass.instance_method(name).bind(instance))
+    end
+
     def run_command(instance, name, args)
-      return unless command = commands[name]
+      command = commands[name] || get_command(instance, name)
       block_args = []
       command.arity.times { block_args << args.shift }
       instance.instance_exec(*block_args, &command)

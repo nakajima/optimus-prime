@@ -1,7 +1,7 @@
 module OptimusPrime
   class Command
-    def initialize(caller, handler)
-      @caller, @handler = caller[1], handler
+    def initialize(handler, caller=nil)
+      @handler, @caller = handler, (caller && caller[1])
     end
 
     def help
@@ -32,7 +32,10 @@ module OptimusPrime
     end
 
     def to_proc
-      @handler
+      case handler = @handler
+      when Proc then handler
+      else @handler.to_proc
+      end
     end
   end
 end
