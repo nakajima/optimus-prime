@@ -5,7 +5,11 @@ module OptimusPrime
     end
 
     def options
-      @options ||= {}
+      @options ||= begin
+        list = [''] # need single options for getopts. psh.
+        list += (@option_list || []).map { |opt| opt + ':' }
+        OptionParser.getopts(@args, *list)
+      end
     end
 
     def commands
@@ -21,11 +25,8 @@ module OptimusPrime
     end
 
     def option(name)
-      if i = @args.index('--' + name.to_s)
-        res = @args[i+1]
-        options[name.to_s] = @args.delete(res)
-        @args.delete('--' + name.to_s)
-      end
+      @option_list ||= []
+      @option_list << name.to_s
     end
 
     def init(instance)
