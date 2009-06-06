@@ -69,11 +69,14 @@ Then run your program:
 
 ## Help
 
-Add comments above commands to generate help:
+Add comments below command declarations to generate help:
 
-    ##
-    # Shows the name.
     command :show do |name|
+      # Shows the name.
+      #
+      # USAGE
+      #
+      #   $ ruby commands.rb show Pat
       puts "Name: " + name
     end
 
