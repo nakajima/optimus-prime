@@ -4,6 +4,7 @@ class CommandsWithArgs
   include OptimusPrime
 
   command :show do |name|
+    # This will show the name.
     puts "Name: " + (name || '(n/a)')
   end
 end

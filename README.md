@@ -88,6 +88,25 @@ Then run your program:
     $ ruby commands_with_args.rb show Pat
     Name: Pat
 
+### Commands as methods
+
+    class CommandsAsMethods
+      include OptimusPrime
+
+      command :show
+
+      def show(name)
+        puts "Showing: " + name
+      end
+    end
+
+    CommandsAsMethods.new
+
+Then run your program:
+
+    $ ruby commands_as_methods.rb show Pat
+    Showing: Pat
+
 ## Help
 
 Add comments below command declarations to generate help:
