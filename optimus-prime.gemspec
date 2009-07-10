@@ -1,7 +1,3 @@
-Rubygems version has changed.
-This might not work.
-# -*- encoding: utf-8 -*-
-
 Gem::Specification.new do |s|
   s.name = %q{optimus-prime}
   s.version = "0.0.1"
