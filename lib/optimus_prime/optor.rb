@@ -30,8 +30,7 @@ module OptimusPrime
     end
 
     def option(name)
-      @option_list ||= []
-      @option_list << name.to_s + ':'
+      flag name.to_s + ':'
     end
 
     def init(instance)
