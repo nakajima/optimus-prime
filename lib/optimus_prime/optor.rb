@@ -29,13 +29,26 @@ module OptimusPrime
       @option_list << name.to_s
     end
 
-    def option(name)
-      flag name.to_s + ':'
+    def option(name, options={})
+      @option_list ||= []
+      @option_list << name.to_s + ':'
+
+      if options[:prompt]
+        @prompt_list ||= {}
+        @prompt_list[name.to_s] = options[:prompt]
+      end
     end
 
     def init(instance)
       options.each do |key,val|
         instance.instance_variable_set("@#{key}", val)
+      end
+
+      Array(@prompt_list).each do |key, prompt|
+        next if options[key]
+        $stdout.print prompt + ' '
+        options[key] = $stdin.gets.chomp
+        instance.instance_variable_set("@#{key}", options[key])
       end
 
       args = @args.dup

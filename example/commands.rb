@@ -3,7 +3,10 @@ require File.join(File.dirname(__FILE__), *%w[.. lib optimus_prime])
 class Commands
   include OptimusPrime
 
-  option :name, :age
+  attr_reader :name, :age
+
+  option :age, :prompt => 'Enter an age:'
+  option :name, :prompt => 'Enter a name:'
 
   command :show do
     ##

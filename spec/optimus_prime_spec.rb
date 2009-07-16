@@ -24,6 +24,26 @@ describe OptimusPrime do
     end
   end
 
+  describe ":prompt" do
+    it "gets value" do
+      with_args '-a', '21' do
+        mock($stdin).gets.returns('Pat')
+        mock($stdout).print('Enter a name: ')
+
+        new_parser = Class.new {
+          include OptimusPrime
+
+          attr_reader :name, :age
+
+          option :age
+          option :name, :prompt => 'Enter a name:'
+        }.new
+
+        new_parser.name.should == 'Pat'
+      end
+    end
+  end
+
   it "should allow shorthand" do
     with_args '-n', 'Pat', '-a', '21' do
       new_parser = Class.new {

@@ -59,7 +59,8 @@ module OptimusPrime
     end
 
     def option(*names)
-      names.each { |name| __optor__.option(name) }
+      options = names.last.is_a?(Hash) ? names.pop : {}
+      names.each { |name| __optor__.option(name, options) }
     end
   end
 end
