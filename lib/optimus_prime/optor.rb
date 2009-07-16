@@ -21,7 +21,7 @@ module OptimusPrime
     end
 
     def help(name)
-      @commands[name].help
+      commands[name].help
     end
 
     def flag(name)
