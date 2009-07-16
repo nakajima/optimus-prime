@@ -27,6 +27,29 @@ Then run your program:
     Name: Pat
     Age:  22
 
+#### Prompting for options
+
+If you specify a `:prompt` option, the user will be prompted for
+a value if one isn't provided already:
+
+    class OptionPromptClass
+      include OptimusPrime
+
+      attr_reader :name
+
+      option :name, :prompt => 'Enter a name:'
+    end
+
+    options = OptionPromptClass.new
+
+    puts "Name: " + options.name
+
+Then run your program:
+
+    $ ruby option_prompt_class.rb
+    Enter a name: # enter "Pat"
+    Name: Pat
+
 #### You can also have options that don't need a value (flags):
 
     class FlagsClass
