@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'nakajima'
 require 'optparse'
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
