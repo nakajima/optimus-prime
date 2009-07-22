@@ -2,6 +2,7 @@ require 'optparse'
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
+require 'core_ext/object'
 require 'optimus_prime/command'
 require 'optimus_prime/optor'
 
